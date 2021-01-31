@@ -4,10 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "ActionStateInput.h"
 #include "ActionStateMachine.generated.h"
 
 
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+class UActionState;
+
+UCLASS(BlueprintType, ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class ZERO_API UActionStateMachine : public UActorComponent
 {
 	GENERATED_BODY()
@@ -24,5 +27,18 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-		
+
+	void RegisterState(TSubclassOf<UActionState> state_class);
+
+	bool ChangeState(FName state_class_name, TMap<FName, FString> *enter_param = nullptr);
+
+public:
+	UPROPERTY(BlueprintReadOnly)
+	UActionStateInput *state_input;
+
+	UPROPERTY(BlueprintReadOnly)
+	UActionState *current_state;
+
+	UPROPERTY()
+	TMap<FName, UActionState *> state_map;
 };
