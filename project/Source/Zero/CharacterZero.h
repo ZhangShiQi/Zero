@@ -3,12 +3,19 @@
 
 #include "CoreMinimal.h"
 #include "PaperCharacter.h"
+#include "ActionStateMachine.h"
 #include "CharacterZero.generated.h"
+
+
+
+
+
+
 
 /**
  * 
  */
-UCLASS(BlueprintType|BlueprintClass)
+UCLASS(BlueprintType, Blueprintable)
 class ZERO_API ACharacterZero : public APaperCharacter
 {
 	GENERATED_BODY()
@@ -22,6 +29,7 @@ public:
 
 
 
-
+protected:
+	UActionStateMachine *state_machine;
 
 };

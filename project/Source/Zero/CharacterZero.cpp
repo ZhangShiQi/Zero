@@ -5,6 +5,8 @@
 
 ACharacterZero::ACharacterZero()
 {
+	state_machine = CreateDefaultSubobject<UActionStateMachine>("ActionStateMachine", false);
+
 
 }
 
