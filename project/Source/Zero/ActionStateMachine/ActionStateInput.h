@@ -15,17 +15,20 @@ template <class T>
 class ActionStateInputDelegate {
 public:
 	// axis.
-	TMap<FName, T> delegate_input;
+	TArray<T> delegate_input;
 
-	T &get(const FName &name) {
+	void init(int max_name) {
+		delegate_input.Reserve(max_name);
+		for (int i = 0; i < max_name; i++) {
+			delegate_input.Add(T());
+		}
+	}
+
+	T &get(int name) {
 		return delegate_input[name];
 	}
 
-	void add(const FName &name) {
-		delegate_input.Add(name, T());
-	}
-
-	T &operator[] (const FName &name) {
+	T &operator[] (int name) {
 		return get(name);
 	}
 };
@@ -48,7 +51,10 @@ public:
 	ActionStateInputDelegate<FActionStateInputAction>	released;
 
 public:
-	void InputAxis(const FName &name, float axis);
-	void InputActionPressed(const FName &name);
-	void InputActionReleased(const FName &name);
+
+	void Init(int max_input_name);
+
+	void InputAxis(int name, float axis);
+	void InputActionPressed(int name);
+	void InputActionReleased(int name);
 };

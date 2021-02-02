@@ -7,10 +7,6 @@
 
 #include "Sprite/FlipbookSprite.h"
 #include "StateMachine/StateInputName.h"
-#include "StateMachine/ASIdle.h"
-#include "StateMachine/ASMove.h"
-#include "StateMachine/ASRun.h"
-#include "StateMachine/ASInAir.h"
 
 ACharacterZero::ACharacterZero(const FObjectInitializer &ObjectInitializer)
 	:Super(ObjectInitializer.DoNotCreateDefaultSubobject(ACharacter::MeshComponentName))
@@ -47,6 +43,8 @@ ACharacterZero::ACharacterZero(const FObjectInitializer &ObjectInitializer)
 	flipbook_sprite->SetCollisionProfileName(CollisionProfileName);
 	flipbook_sprite->SetGenerateOverlapEvents(false);
 
+
+
 	// action state machine.
 	state_machine = CreateDefaultSubobject<UActionStateMachine>("ActionStateMachine", false);
 }
@@ -75,12 +73,14 @@ void ACharacterZero::BeginPlay()
 	Super::BeginPlay();
 
 	// register state input.
-	state_machine->state_input->axis.add(GET_SIN(CharacterMove));
+	state_machine->state_input->Init(SIN_MAX);
 
 
 	// register state machine.
-	state_machine->RegisterState(UActionStateIdle::StaticClass());
-	state_machine->RegisterState(UActionStateRun::StaticClass());
+	state_machine->RegisterState("ActionStateIdle");
+	state_machine->RegisterState("ActionStateRun");
+	state_machine->RegisterState("ActionStateJump");
+	state_machine->RegisterState("ActionStateInAir");
 
 	// first state.
 	state_machine->ChangeState("ActionStateIdle");
@@ -91,13 +91,28 @@ void ACharacterZero::SetupPlayerInputComponent(UInputComponent *input)
 {
 	Super::SetupPlayerInputComponent(input);
 
-	input->BindAxis(GET_SIN(CharacterMove), this, &ACharacterZero::InputMove);
+	input->BindAxis("CharacterMove", this, &ACharacterZero::InputMove);
+	input->BindAction("CharacterJump", IE_Pressed, this, &ACharacterZero::InputJumpPressed);
+	input->BindAction("CharacterJump", IE_Released, this, &ACharacterZero::InputJumpReleased);
+}
+
+void ACharacterZero::InputJumpPressed()
+{
+	if (state_machine->state_input) {
+		state_machine->state_input->InputActionPressed(SIN_Jump);
+	}
+}
+
+void ACharacterZero::InputJumpReleased()
+{
+	if (state_machine->state_input) {
+		state_machine->state_input->InputActionReleased(SIN_Jump);
+	}
 }
 
 void ACharacterZero::InputMove(float axis)
 {
-	if (state_machine->state_input) 
-	{
-		state_machine->state_input->InputAxis(GET_SIN(CharacterMove), axis);
+	if (state_machine->state_input) {
+		state_machine->state_input->InputAxis(SIN_Move, axis);
 	}
 }

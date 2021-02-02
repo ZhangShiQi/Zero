@@ -28,8 +28,10 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 
-	void RegisterState(TSubclassOf<UActionState> state_class);
+	void RegisterAllStates();
 
+	bool RegisterState(const char *state_class_name);
+	void RegisterState(TSubclassOf<UActionState> state_class);
 	bool ChangeState(FName state_class_name, TMap<FName, FString> *enter_param = nullptr);
 
 public:

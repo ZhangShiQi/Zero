@@ -15,7 +15,7 @@ class ZERO_API UFlipbookSprite : public UPaperFlipbookComponent
 	GENERATED_BODY()
 	
 public:
-	void Play(const FName &name);
+	void Play(const FName &name, float play_position = 0.0f);
 
 public:
 	UPROPERTY(EditAnywhere)

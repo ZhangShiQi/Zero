@@ -177,7 +177,7 @@
             <key>defaultPivotPoint</key>
             <point_f>0.5,0.5</point_f>
             <key>writePivotPoints</key>
-            <false/>
+            <true/>
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
@@ -192,6 +192,8 @@
             <key type="filename">normal/jump_flow_loop3.png</key>
             <key type="filename">normal/jump_flow_start1.png</key>
             <key type="filename">normal/jump_flow_start2.png</key>
+            <key type="filename">normal/jump_landing1.png</key>
+            <key type="filename">normal/jump_landing2.png</key>
             <key type="filename">normal/jump_raise_loop1.png</key>
             <key type="filename">normal/jump_raise_loop2.png</key>
             <key type="filename">normal/jump_raise_loop3.png</key>
@@ -209,7 +211,7 @@
             <key type="filename">normal/run9.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
+                <point_f>0.5,0.78125</point_f>
                 <key>spriteScale</key>
                 <double>1</double>
                 <key>scale9Enabled</key>

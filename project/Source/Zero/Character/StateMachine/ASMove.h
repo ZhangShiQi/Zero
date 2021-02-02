@@ -12,6 +12,7 @@
 #include "Character/Sprite/FlipbookSprite.h"
 #include "Character/CharacterZero.h"
 
+#include "StateInputName.h"
 #include "ASMove.generated.h"
 
 
@@ -22,27 +23,33 @@ class ZERO_API UActionStateMove : public UActionState
 
 public:
 	virtual void OnEnter(const ASParam *param) {
-		state_input->axis["CharacterMove"].BindUObject(this, &UActionStateMove::InputMove);
+		state_input->axis[SIN_Move].BindUObject(this, &UActionStateMove::InputMove);
+		state_input->pressed[SIN_Jump].BindUObject(this, &UActionStateMove::InputJumpPressed);
+		state_input->released[SIN_Jump].BindUObject(this, &UActionStateMove::InputJumpReleased);
 
-		movement = ((ACharacterZero *)owner)->GetMovementComponent();
-		sprite = ((ACharacterZero *)owner)->GetSprite();
+		character = dynamic_cast<ACharacterZero *>(owner);
+		movement = character->GetMovementComponent();
+		sprite = character->GetSprite();
 	}
 
 	virtual void OnExit() {
-		state_input->axis["CharacterMove"].Unbind();
+		state_input->axis[SIN_Move].Unbind();
 
 	}
 
 	virtual void OnUpdate(float delta) {
 		if (movement) {
-			if (movement->IsMovingOnGround()) {
-				UE_LOG(LogTemp, Log, TEXT("Is On Ground"));
-			}
-			else {
-				UE_LOG(LogTemp, Log, TEXT("Not On Ground"));
-			}
+			velocity = owner->GetVelocity();
+			is_on_ground = movement->IsMovingOnGround();
+			 
+
+			GEngine->AddOnScreenDebugMessage(
+				-1, 0, FColor::White,
+				FString::Printf(TEXT("Velocity:%s"), *velocity.ToString())
+			);
 		}
 	};
+
 	//
 	virtual void InputMove(float axis) {
 		move_axis = axis;
@@ -60,7 +67,9 @@ public:
 	}
 
 	virtual void InputJumpPressed() {
-
+		if (movement->IsMovingOnGround()) {
+			state_machine->ChangeState("ActionStateJump");
+		}
 	}
 
 	virtual void InputJumpReleased() {
@@ -69,8 +78,10 @@ public:
 
 protected:
 	UPawnMovementComponent *movement;
+	bool is_on_ground;
+	FVector velocity;
 	UFlipbookSprite *sprite;
-
+	ACharacterZero *character;
 	float move_axis;
 };
 

@@ -5,11 +5,11 @@
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
 #include "ASMove.h"
-#include "ASIdle.generated.h"
+#include "ASLanding.generated.h"
 
 
 UCLASS(Blueprinttype, Blueprintable)
-class ZERO_API UActionStateIdle : public UActionStateMove
+class ZERO_API UActionStateLanding : public UActionStateMove
 {
 	GENERATED_BODY()
 
@@ -17,20 +17,16 @@ public:
 	virtual void OnEnter(const ASParam *param) {
 		UActionStateMove::OnEnter(param);
 
-		sprite->Play("normal_idle");
-	}
-
-	virtual void OnUpdate(float delta) {
-		UActionStateMove::OnUpdate(delta);
-		if (!is_on_ground) {
-			state_machine->ChangeState("ActionStateInAir");
-		}
+		sprite->Play("normal_run");
 	}
 
 	virtual void InputMove(float axis) {
-		if (fabs(axis) > 0.01f) {
-			state_machine->ChangeState("ActionStateRun");
+		if (fabs(axis) <= 0.01f) {
+			state_machine->ChangeState("ActionStateIdle");
+		}
+		else {
+			UActionStateMove::InputMove(axis);
 		}
 	}
-
 };
+

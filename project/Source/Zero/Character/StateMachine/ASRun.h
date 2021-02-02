@@ -17,15 +17,30 @@ public:
 	virtual void OnEnter(const ASParam *param) {
 		UActionStateMove::OnEnter(param);
 
-		sprite->Play("normal_run");
+		float start_pos_time = 0.f;
+
+		if (param) {
+			const FString *str_time = param->Find("start_play_time");
+			if (str_time) {
+				start_pos_time = FCString::Atof(**str_time);
+			}
+		}
+
+		sprite->Play("normal_run", start_pos_time);
 	}
 
 	virtual void InputMove(float axis) {
-		if (fabs(axis) <= 0.01f) {
-			state_machine->ChangeState("ActionStateIdle");
+
+		if (is_on_ground) {
+			if (fabs(axis) <= 0.01f) {
+				state_machine->ChangeState("ActionStateIdle");
+			}
+			else {
+				UActionStateMove::InputMove(axis);
+			}
 		}
 		else {
-			UActionStateMove::InputMove(axis);
+			state_machine->ChangeState("ActionStateInAir");
 		}
 	}
 };

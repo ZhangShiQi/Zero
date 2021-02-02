@@ -28,6 +28,8 @@ public:
 
 
 	void InputMove(float axis);
+	void InputJumpPressed();
+	void InputJumpReleased();
 
 	virtual void SetupPlayerInputComponent(class UInputComponent *input);
 	virtual void PostInitializeComponents();

@@ -10,17 +10,24 @@ UActionStateInput::UActionStateInput()
 UActionStateInput::~UActionStateInput()
 {}
 
-void UActionStateInput::InputAxis(const FName &name, float axis_value)
+void UActionStateInput::Init(int max_input_name)
+{
+	axis.init(max_input_name);
+	pressed.init(max_input_name);
+	released.init(max_input_name);
+}
+
+void UActionStateInput::InputAxis(int name, float axis_value)
 {
 	axis[name].ExecuteIfBound(axis_value);
 }
 
-void UActionStateInput::InputActionPressed(const FName &name)
+void UActionStateInput::InputActionPressed(int name)
 {
 	pressed[name].ExecuteIfBound();
 }
 
-void UActionStateInput::InputActionReleased(const FName &name)
+void UActionStateInput::InputActionReleased(int name)
 {
 	released[name].ExecuteIfBound();
 }

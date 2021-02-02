@@ -5,8 +5,8 @@
 #include "UObject/NoExportTypes.h"
 
 enum eSIN {
-	SIN_CharacterMove = 0,
-
+	SIN_Move = 0,
+	SIN_Jump,
 
 	SIN_MAX,
 };

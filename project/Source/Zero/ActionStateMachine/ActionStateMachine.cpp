@@ -31,6 +31,30 @@ void UActionStateMachine::TickComponent(float DeltaTime, ELevelTick TickType, FA
 	}
 }
 
+void UActionStateMachine::RegisterAllStates()
+{
+	/*for (int i = 0; i < STATE_NAME_NUM(); i++) {
+		const TCHAR *class_name = STATE_NAME_ARRAY()[i];
+
+		UClass *u_class = FindObject<UClass>(ANY_PACKAGE, class_name);
+		if (u_class) {
+			RegisterState(u_class);
+		}
+	}*/
+}
+
+bool UActionStateMachine::RegisterState(const char *state_class_name)
+{
+	UClass *u_class = FindObject <UClass>(ANY_PACKAGE, ANSI_TO_TCHAR(state_class_name));
+	if (u_class == nullptr) {
+		return false;
+	}
+
+	TSubclassOf<UActionState> state_class(u_class);
+	RegisterState(*state_class);
+	return true;
+}
+
 void UActionStateMachine::RegisterState(TSubclassOf<UActionState> state_class)
 {
 	UActionState *new_state = NewObject<UActionState>(this, state_class);
