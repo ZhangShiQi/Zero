@@ -9,7 +9,14 @@
 
 
 class UFlipbookSprite;
+class USideDetectBox;
 
+UENUM(BlueprintType)
+enum class EDirection:uint8 {
+	NONE = 0,
+	RIGHT,
+	LEFT,
+};
 
 /**
  * 
@@ -36,6 +43,26 @@ public:
 
 	/** Returns Sprite subobject **/
 	FORCEINLINE UFlipbookSprite *GetSprite() const { return flipbook_sprite; }
+	FORCEINLINE USideDetectBox *GetSideBox() const { return side_box; }
+
+public:
+	// default value.
+	UPROPERTY(EditAnywhere)
+	float default_side_climbing_speed = -10.f;
+
+	UPROPERTY(EditAnywhere)
+	FVector default_side_jump_velocity = FVector(300.0f, 0.f, 250.0f);
+
+	UPROPERTY(EditAnywhere)
+	float default_side_climbing_down_hold_time = 0.2f;
+
+public:
+	// temp variable.
+	UPROPERTY(BlueprintReadonly, VisibleAnywhere)
+	bool is_on_ground;
+	
+	UPROPERTY(BlueprintReadonly, VisibleAnywhere)
+	EDirection sprite_dir;
 
 protected:
 	UPROPERTY(Category = StateMachine, VisibleAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
@@ -47,4 +74,6 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
 	UFlipbookSprite *flipbook_sprite;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+	USideDetectBox *side_box;
 };

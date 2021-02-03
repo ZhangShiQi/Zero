@@ -6,7 +6,9 @@
 #include "GameFramework/CharacterMovementComponent.h"
 
 #include "Sprite/FlipbookSprite.h"
+#include "SideDetectBox.h"
 #include "StateMachine/StateInputName.h"
+
 
 ACharacterZero::ACharacterZero(const FObjectInitializer &ObjectInitializer)
 	:Super(ObjectInitializer.DoNotCreateDefaultSubobject(ACharacter::MeshComponentName))
@@ -43,6 +45,12 @@ ACharacterZero::ACharacterZero(const FObjectInitializer &ObjectInitializer)
 	flipbook_sprite->SetCollisionProfileName(CollisionProfileName);
 	flipbook_sprite->SetGenerateOverlapEvents(false);
 
+	// side detect box.
+	side_box = CreateDefaultSubobject<USideDetectBox>("side_detect_box");
+	side_box->SetupAttachment(flipbook_sprite);
+	side_box->SetRelativeLocation(FVector(-14.f, 0.f, 19.f));
+	side_box->SetBoxExtent(FVector(4.0f, 20.0f, 11.0f));
+	side_box->SetCollisionProfileName("SideDetectBox");
 
 
 	// action state machine.
@@ -81,6 +89,8 @@ void ACharacterZero::BeginPlay()
 	state_machine->RegisterState("ActionStateRun");
 	state_machine->RegisterState("ActionStateJump");
 	state_machine->RegisterState("ActionStateInAir");
+	state_machine->RegisterState("ActionStateSideClimbing");
+	
 
 	// first state.
 	state_machine->ChangeState("ActionStateIdle");

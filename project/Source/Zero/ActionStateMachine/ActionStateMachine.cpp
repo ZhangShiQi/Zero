@@ -60,7 +60,8 @@ void UActionStateMachine::RegisterState(TSubclassOf<UActionState> state_class)
 	UActionState *new_state = NewObject<UActionState>(this, state_class);
 
 	FName class_name = state_class->GetFName();
-	UE_LOG(LogTemp, Log, TEXT("register state:%s") , *class_name.ToString());
+
+
 
 	state_map.Add(class_name, new_state);
 	
@@ -84,7 +85,12 @@ bool UActionStateMachine::ChangeState(FName state_class_name, TMap<FName, FStrin
 
 	current_state = state;
 	current_state->OnEnter(enter_param);
-	UE_LOG(LogTemp, Log, TEXT("Current state:%s"), *state_class_name.ToString());
+	
+	//UE_LOG(LogTemp, Log, TEXT("Current state:%s"), *state_class_name.ToString());
+
+	GEngine->AddOnScreenDebugMessage(1, 5, FColor::White,
+		FString::Printf(TEXT("Current state:%s"), *state_class_name.ToString()));
+
 	return true;
 }
 

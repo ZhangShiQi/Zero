@@ -15,6 +15,18 @@ public:
 		
 		ASParam ap;
 		ap.Add("is_jump");
+		if (param && param->Find("is_side_jump")) {
+			ap.Add("is_side_jump");
+
+			// fix movment velocity.
+			movement->Velocity.Z = character->default_side_jump_velocity.Z;
+			if (character->sprite_dir == EDirection::RIGHT) {
+				movement->Velocity.X = -character->default_side_jump_velocity.X;
+			}
+			else {
+				movement->Velocity.X = character->default_side_jump_velocity.X;
+			}
+		}
 
 		state_machine->ChangeState("ActionStateInAir", &ap);
 	}

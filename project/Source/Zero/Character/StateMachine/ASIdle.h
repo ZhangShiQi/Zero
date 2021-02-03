@@ -22,13 +22,15 @@ public:
 
 	virtual void OnUpdate(float delta) {
 		UActionStateMove::OnUpdate(delta);
-		if (!is_on_ground) {
+		if (!character->is_on_ground) {
 			state_machine->ChangeState("ActionStateInAir");
 		}
 	}
 
 	virtual void InputMove(float axis) {
-		if (fabs(axis) > 0.01f) {
+		UActionStateMove::InputMove(axis);
+
+		if (IsInputMove()) {
 			state_machine->ChangeState("ActionStateRun");
 		}
 	}

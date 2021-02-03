@@ -11,13 +11,13 @@ class ZERO_API UActionStateInAir : public UActionStateMove
 	GENERATED_BODY()
 public:
 
-
 	enum State {
 		RAISE,
 		FLOW,
 		LANDING
 	};
 
+	bool is_jump = false;
 	State state = RAISE;
 	FVector last_velocity;
 
@@ -26,10 +26,19 @@ public:
 
 		sprite->OnFinishedPlaying.AddDynamic(this, &UActionStateInAir::OnFinsihedPlaying);
 
+		is_jump = false;
 		if (param && param->Find("is_jump")) {
 			state = RAISE;
-			sprite->Play("normal_raise_start");
+
+			if (param->Find("is_side_jump")) {
+				sprite->Play("normal_side_climbing_jump");
+			}
+			else {
+				sprite->Play("normal_raise_start");
+			}
+
 			character->Jump();
+			is_jump = true;
 		}
 		else {
 			state = FLOW;
@@ -46,10 +55,15 @@ public:
 	virtual void OnUpdate(float delta) {
 		UActionStateMove::OnUpdate(delta);
 
-		if (!is_on_ground) {
-			if (state == RAISE && velocity.Z <= 0.f) {
+		if (!character->is_on_ground) {
+			if (state == RAISE && movement->Velocity.Z <= 0.f) {
 				state = FLOW;
 				sprite->Play("normal_flow_start");
+			}
+
+			// detect side wall.
+			if (side_box->IsHit() && movement->Velocity.Z <= 0.f) {
+				state_machine->ChangeState("ActionStateSideClimbing");
 			}
 		}
 		else {
@@ -59,7 +73,7 @@ public:
 			}
 		}
 
-		last_velocity = velocity;
+		last_velocity = movement->Velocity;
 	}
 
 	UFUNCTION()
@@ -75,7 +89,7 @@ public:
 			break;
 
 		case LANDING:
-			if (fabs(move_axis) <= 0.01f) {
+			if (!IsInputMove()) {
 				state_machine->ChangeState("ActionStateIdle");
 			}
 			else {
@@ -89,14 +103,10 @@ public:
 		}
 	}
 
-
-	virtual void InputMove(float axis) {
-		UActionStateMove::InputMove(axis);
-	}
-
 	virtual void InputJumpReleased() {
-		character->StopJumping();
-
+		if (is_jump) {
+			character->StopJumping();
+		}
 	}
 
 };
