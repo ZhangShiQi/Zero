@@ -223,6 +223,29 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">normal/side_climbing1.png</key>
+            <key type="filename">normal/side_climbing2.png</key>
+            <key type="filename">normal/side_climbing3.png</key>
+            <key type="filename">normal/side_climbing_jump1.png</key>
+            <key type="filename">normal/side_climbing_jump2.png</key>
+            <key type="filename">normal/side_climbing_jump3.png</key>
+            <key type="filename">normal/side_climbing_loop1.png</key>
+            <key type="filename">normal/side_climbing_loop2.png</key>
+            <key type="filename">normal/side_climbing_loop3.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.4375,0.78125</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>16,16,32,32</rect>
+                <key>scale9Paddings</key>
+                <rect>16,16,32,32</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
         </map>
         <key>fileList</key>
         <array>

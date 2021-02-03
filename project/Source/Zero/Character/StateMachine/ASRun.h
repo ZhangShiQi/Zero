@@ -30,9 +30,10 @@ public:
 	}
 
 	virtual void InputMove(float axis) {
+		UActionStateMove::InputMove(axis);
 
-		if (is_on_ground) {
-			if (fabs(axis) <= 0.01f) {
+		if (character->is_on_ground) {
+			if (!IsInputMove()) {
 				state_machine->ChangeState("ActionStateIdle");
 			}
 			else {
