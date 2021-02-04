@@ -7,6 +7,7 @@
 enum eSIN {
 	SIN_Move = 0,
 	SIN_Jump,
+	SIN_Rush,
 
 	SIN_MAX,
 };

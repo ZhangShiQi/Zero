@@ -223,6 +223,27 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">normal/rush_end1.png</key>
+            <key type="filename">normal/rush_end2.png</key>
+            <key type="filename">normal/rush_loop1.png</key>
+            <key type="filename">normal/rush_loop2.png</key>
+            <key type="filename">normal/rush_loop3.png</key>
+            <key type="filename">normal/rush_loop4.png</key>
+            <key type="filename">normal/rush_start.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.625</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>32,32,64,64</rect>
+                <key>scale9Paddings</key>
+                <rect>32,32,64,64</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">normal/side_climbing1.png</key>
             <key type="filename">normal/side_climbing2.png</key>
             <key type="filename">normal/side_climbing3.png</key>

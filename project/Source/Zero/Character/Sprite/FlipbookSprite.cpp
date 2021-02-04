@@ -19,6 +19,10 @@ void UFlipbookSprite::Play(const FName &name, float play_position)
 		return;
 	}
 
+	// store 
+	current_playing = name;
+
+	// 
 	SetFlipbook(flipbook_data->flipbook);
 	SetLooping(flipbook_data->is_looping);
 

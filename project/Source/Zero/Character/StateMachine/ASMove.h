@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
-#include "GameFramework/PawnMovementComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 #include "ActionStateMachine/ActionStateInput.h"
 #include "ActionStateMachine/ActionState.h"
@@ -28,9 +28,11 @@ public:
 	virtual void OnEnter(const ASParam *param) {
 		EnableInputMove();
 		EnableInputJump();
+		EnableInputRush();
 
 		character = dynamic_cast<ACharacterZero *>(owner);
-		movement = character->GetMovementComponent();
+		movement = dynamic_cast<UCharacterMovementComponent *>(character->GetMovementComponent());
+
 		sprite = character->GetSprite();
 		side_box = character->GetSideBox();
 	}
@@ -59,6 +61,11 @@ public:
 	virtual void EnableInputJump() {
 		state_input->pressed[SIN_Jump].BindUObject(this, &UActionStateMove::InputJumpPressed);
 		state_input->released[SIN_Jump].BindUObject(this, &UActionStateMove::InputJumpReleased);
+	}
+
+	virtual void EnableInputRush() {
+		state_input->pressed[SIN_Rush].BindUObject(this, &UActionStateMove::InputRushPressed);
+		state_input->released[SIN_Rush].BindUObject(this, &UActionStateMove::InputRushReleased);
 	}
 
 	FORCEINLINE bool IsInputMove()		{ return fabs(move_axis) > 0.01f; }
@@ -109,9 +116,19 @@ public:
 
 	}
 
+	virtual void InputRushPressed() {
+		if (movement->IsMovingOnGround()) {
+			state_machine->ChangeState("ActionStateRush");
+		}
+	}
+
+	virtual void InputRushReleased() {
+
+	}
+
 protected:
 
-	UPawnMovementComponent *movement;
+	UCharacterMovementComponent *movement;
 	UFlipbookSprite *sprite;
 	USideDetectBox *side_box;
 	ACharacterZero *character;

@@ -90,6 +90,8 @@ void ACharacterZero::BeginPlay()
 	state_machine->RegisterState("ActionStateJump");
 	state_machine->RegisterState("ActionStateInAir");
 	state_machine->RegisterState("ActionStateSideClimbing");
+	state_machine->RegisterState("ActionStateRush");
+
 	
 
 	// first state.
@@ -104,6 +106,24 @@ void ACharacterZero::SetupPlayerInputComponent(UInputComponent *input)
 	input->BindAxis("CharacterMove", this, &ACharacterZero::InputMove);
 	input->BindAction("CharacterJump", IE_Pressed, this, &ACharacterZero::InputJumpPressed);
 	input->BindAction("CharacterJump", IE_Released, this, &ACharacterZero::InputJumpReleased);
+
+	input->BindAction("CharacterRush", IE_Pressed, this, &ACharacterZero::InputRushPressed);
+	input->BindAction("CharacterRush", IE_Released, this, &ACharacterZero::InputRushReleased);
+
+}
+
+void ACharacterZero::InputRushPressed()
+{
+	if (state_machine->state_input) {
+		state_machine->state_input->InputActionPressed(SIN_Rush);
+	}
+}
+
+void ACharacterZero::InputRushReleased()
+{
+	if (state_machine->state_input) {
+		state_machine->state_input->InputActionReleased(SIN_Rush);
+	}
 }
 
 void ACharacterZero::InputJumpPressed()

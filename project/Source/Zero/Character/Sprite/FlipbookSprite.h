@@ -17,8 +17,15 @@ class ZERO_API UFlipbookSprite : public UPaperFlipbookComponent
 public:
 	void Play(const FName &name, float play_position = 0.0f);
 
+
+	FORCEINLINE FName GetCurrentPlaying() const { return current_playing; }
+
 public:
 	UPROPERTY(EditAnywhere)
 		class UFlipbookSet *flipbook_set;
+
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadonly)
+		FName current_playing;
 
 };

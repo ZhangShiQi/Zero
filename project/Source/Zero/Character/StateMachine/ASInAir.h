@@ -69,7 +69,16 @@ public:
 		else {
 			if (state == FLOW || state == RAISE) {
 				state = LANDING;
-				sprite->Play("normal_landing");
+
+				if (IsInputMove()) {
+					ASParam param;
+					param.Add("start_play_time", "0.5f");
+
+					state_machine->ChangeState("ActionStateRun", &param);
+				}
+				else {
+					sprite->Play("normal_landing");
+				}
 			}
 		}
 
