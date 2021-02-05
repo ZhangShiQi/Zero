@@ -1,12 +1,12 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
-#include "ASMove.h"
-#include "ASInAir.generated.h"
+#include "ASInAir.h"
+#include "ASJumpInAir.generated.h"
 
 
 UCLASS(Blueprinttype, Blueprintable)
-class ZERO_API UActionStateInAir : public UActionStateMove
+class ZERO_API UActionStateJumpInAir : public UActionStateInAir
 {
 	GENERATED_BODY()
 public:
@@ -40,9 +40,6 @@ public:
 			character->Jump();
 			is_jump = true;
 		}
-		//else if (param && param->Find("need_acceleration") {
-		//	Enable_Acceleration();
-		//}
 		else {
 			state = FLOW;
 			sprite->Play("normal_flow_start");

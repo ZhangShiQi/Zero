@@ -8,6 +8,7 @@
 #include "Sprite/FlipbookSprite.h"
 #include "SideDetectBox.h"
 #include "StateMachine/StateInputName.h"
+#include "BuffSystem/BuffManager.h"
 
 
 ACharacterZero::ACharacterZero(const FObjectInitializer &ObjectInitializer)
@@ -52,9 +53,11 @@ ACharacterZero::ACharacterZero(const FObjectInitializer &ObjectInitializer)
 	side_box->SetBoxExtent(FVector(4.0f, 20.0f, 11.0f));
 	side_box->SetCollisionProfileName("SideDetectBox");
 
-
 	// action state machine.
 	state_machine = CreateDefaultSubobject<UActionStateMachine>("ActionStateMachine", false);
+
+	buff_mgr = CreateDefaultSubobject<UBuffManager>("buff_manager");
+
 }
 
 

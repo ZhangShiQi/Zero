@@ -11,6 +11,12 @@ typedef TMap<FName, FString> ASParam;
 class UActionStateMachine;
 class UActionStateInput;
 
+UENUM(BlueprintType)
+enum class EASChannel:uint8 {
+	QUEUE,
+	PARALLEL,
+};
+
 /**
  * 
  */
@@ -33,6 +39,8 @@ protected:
 	friend class UActionStateMachine;
 
 	AActor *owner;
+
+	EASChannel channel;
 
 	FName state_name;
 	UActionStateMachine *state_machine;

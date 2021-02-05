@@ -19,6 +19,7 @@ public:
 	// Sets default values for this component's properties
 	UActionStateMachine();
 
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
@@ -34,12 +35,21 @@ public:
 	void RegisterState(TSubclassOf<UActionState> state_class);
 	bool ChangeState(FName state_class_name, TMap<FName, FString> *enter_param = nullptr);
 
+
+	bool SetParallelState(FName state_class_name, TMap < FName, FString> *enter_param = nullptr);
+
 public:
+	static FName NoneStateName;
+
+
 	UPROPERTY(BlueprintReadOnly)
 	UActionStateInput *state_input;
 
 	UPROPERTY(BlueprintReadOnly)
 	UActionState *current_state;
+
+	UPROPERTY(BlueprintReadOnly)
+	UActionState *parallel_state;
 
 	UPROPERTY()
 	TMap<FName, UActionState *> state_map;

@@ -10,6 +10,7 @@
 
 class UFlipbookSprite;
 class USideDetectBox;
+class UBuffManager;
 
 UENUM(BlueprintType)
 enum class EDirection:uint8 {
@@ -79,4 +80,7 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
 	USideDetectBox *side_box;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+	UBuffManager *buff_mgr;
 };
