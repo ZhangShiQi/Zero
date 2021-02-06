@@ -49,6 +49,8 @@ public:
 	FORCEINLINE UFlipbookSprite *GetSprite() const { return flipbook_sprite; }
 	FORCEINLINE USideDetectBox *GetSideBox() const { return side_box; }
 
+
+
 public:
 	// default value.
 	UPROPERTY(EditAnywhere)
@@ -59,6 +61,15 @@ public:
 
 	UPROPERTY(EditAnywhere)
 	float default_side_climbing_down_hold_time = 0.2f;
+
+	UPROPERTY(EditAnywhere)
+	float default_rush_duration = 0.25f;
+
+	UPROPERTY(EditAnywhere)
+	float default_rush_acceleration_scale = 1.5f;
+
+	UPROPERTY(EditAnywhere)
+	bool default_change_dir_break_rush = true;
 
 public:
 	// temp variable.

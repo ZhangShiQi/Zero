@@ -20,6 +20,8 @@ public:
 
 			// fix movment velocity.
 			movement->Velocity.Z = character->default_side_jump_velocity.Z;
+
+			// 
 			if (character->sprite_dir == EDirection::RIGHT) {
 				movement->Velocity.X = -character->default_side_jump_velocity.X;
 			}

@@ -36,6 +36,7 @@ public:
 	bool ChangeState(FName state_class_name, TMap<FName, FString> *enter_param = nullptr);
 
 
+	void ClearParallelState();
 	bool SetParallelState(FName state_class_name, TMap < FName, FString> *enter_param = nullptr);
 
 public:

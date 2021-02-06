@@ -94,6 +94,7 @@ void ACharacterZero::BeginPlay()
 	state_machine->RegisterState("ActionStateInAir");
 	state_machine->RegisterState("ActionStateSideClimbing");
 	state_machine->RegisterState("ActionStateRush");
+	state_machine->RegisterState("ActionStateAcceleration");
 
 	
 

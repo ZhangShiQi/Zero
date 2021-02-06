@@ -97,15 +97,14 @@ bool UActionStateMachine::ChangeState(FName state_class_name, TMap<FName, FStrin
 	return true;
 }
 
+void UActionStateMachine::ClearParallelState()
+{
+	SetParallelState(UActionStateMachine::NoneStateName);
+}
+
 
 bool UActionStateMachine::SetParallelState(FName state_class_name, TMap < FName, FString> *enter_param)
 {
-	UActionState *state = state_map[state_class_name];
-	if (state == nullptr) {
-		UE_LOG(LogTemp, Log, TEXT("Invalid state name %s"), *state_class_name.ToString());
-		return false;
-	}
-
 	if (state_class_name == NoneStateName) {
 		if (parallel_state == nullptr) {
 			UE_LOG(LogTemp, Log, TEXT("No parallel state!"));
@@ -121,6 +120,12 @@ bool UActionStateMachine::SetParallelState(FName state_class_name, TMap < FName,
 		return true;
 	}
 	else {
+		UActionState *state = *state_map.Find(state_class_name);
+		if (state == nullptr) {
+			UE_LOG(LogTemp, Log, TEXT("Invalid state name %s"), *state_class_name.ToString());
+			return false;
+		}
+
 		parallel_state = state;
 		parallel_state->channel = EASChannel::PARALLEL;
 

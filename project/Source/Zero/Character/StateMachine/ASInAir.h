@@ -21,6 +21,8 @@ public:
 	State state = RAISE;
 	FVector last_velocity;
 
+	float disable_input_move = 0.f;
+
 	virtual void OnEnter(const ASParam *param) {
 		UActionStateMove::OnEnter(param);
 
@@ -31,6 +33,7 @@ public:
 			state = RAISE;
 
 			if (param->Find("is_side_jump")) {
+				disable_input_move = 0.1f;
 				sprite->Play("normal_side_climbing_jump");
 			}
 			else {
@@ -57,6 +60,7 @@ public:
 
 	virtual void OnUpdate(float delta) {
 		UActionStateMove::OnUpdate(delta);
+		disable_input_move -= delta;
 
 		if (!character->is_on_ground) {
 			if (state == RAISE && movement->Velocity.Z <= 0.f) {
@@ -65,8 +69,12 @@ public:
 			}
 
 			// detect side wall.
-			if (side_box->IsHit() && movement->Velocity.Z <= 0.f) {
-				state_machine->ChangeState("ActionStateSideClimbing");
+			if (side_box->IsHit()) {
+				if (movement->Velocity.Z <= 0.f) {
+					state_machine->ChangeState("ActionStateSideClimbing");
+				}
+
+
 			}
 		}
 		else {
@@ -112,6 +120,18 @@ public:
 			}
 
 			break;
+		}
+	}
+
+	
+	virtual void InputJumpPressed() {
+		if (side_box->IsHit()) {
+			ASParam param;
+			param.Add("is_side_jump");
+			state_machine->ChangeState("ActionStateJump", &param);
+		}
+		else {
+			UActionStateMove::InputJumpPressed();
 		}
 	}
 

@@ -20,6 +20,7 @@ public:
 		UActionStateMove::OnEnter(param);
 		
 		sprite->OnFinishedPlaying.AddDynamic(this, &UActionStateSideClimbing::OnAnimFinished);
+		
 		sprite->Play("normal_side_climbing");
 
 		last_dir = character->sprite_dir;
